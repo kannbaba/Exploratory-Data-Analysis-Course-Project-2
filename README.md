@@ -16,7 +16,6 @@ NEI <- readRDS("summarySCC_PM25.rds")
 NEI_sum <- ddply(NEI, .(year), summarize, sum=sum(Emissions))
 
 # plotting a barchart for total emissions for each year
-plot(NEI_sum, type="l", main=" Total PM2.5 emission from all sources ", ylab="PM25 Emission (million tonnes)")
 png(filename = "plot1.png", height = 600, width = 600)  
 p <- barplot(height= NEI_sum[,2]/1000000,  name=NEI_sum[,1],
              main=" Total PM2.5 emissions in the States", ylab="PM25 Emission (million tonnes)",xlab="year" ,ylim=c(0,8))
@@ -24,7 +23,6 @@ text (x=p,y=NEI_sum[,2]/1000000, label=format(NEI_sum[,2]/1000000),pos=1)
 dev.off()
 
 ```
-
-![plot1](https://github.com/kannbaba/Exploratory-Data-Analysis-Course-Project-2/assets/6490466/ba76bdc1-c8a0-44f5-9794-bee779501fae)
+![plot1](https://github.com/kannbaba/Exploratory-Data-Analysis-Course-Project-2/assets/6490466/9a3c60e6-a08f-446a-a90b-7bc0e60bd133)
 
 > ANSWER: 
