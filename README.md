@@ -148,4 +148,28 @@ dev.off()
 
 #### Plot6
 
-> QUESTION:
+> QUESTION: Compare emissions from motor vehicle sources in Baltimore City with emissions from motor vehicle sources in Los Angeles County, California (fips == "06037"fips == "06037"). Which city has seen greater changes over time in motor vehicle emissions?
+
+``` r
+## Loading required libraries
+library(plyr); library(grDevices)
+#Loading the main dataset
+NEI <- readRDS("summarySCC_PM25.rds")
+
+# Filtering vehicle based missions in Baltimore. SSC source data file shows that all vehicle related emissions are recorded as "ON-ROAD" type in the main data
+NEI_total_Balt_motors <- ddply(filter(NEI,fips=="24510", type =="ON-ROAD"), .(year), summarize, total=sum(Emissions))
+
+# Filtering vehicle based missions in LA in the same methodology above
+NEI_total_LA_motors <- ddply(filter(NEI,fips=="06037", type =="ON-ROAD"), .(year), summarize, total=sum(Emissions))
+
+# Plotting comparison line chart depicting the emission in both cities
+png(filename = "plot6.png", height = 600, width = 600)  
+plot(NEI_total_LA_motors, type="l", main=" Compairing Vehicle Emisions in LA and Baltimore ", ylab="PM25 Emission (tonnes)", col="red", ylim=c(0,5000))
+lines(NEI_total_Balt_motors, col="blue")
+legend("topleft", legend=c("Los Angeles", "Baltimore"),
+       col=c("red", "blue"), lty=1:1,)
+dev.off()
+```
+![plot6](https://github.com/kannbaba/Exploratory-Data-Analysis-Course-Project-2/assets/6490466/d29ba447-9022-4793-99b4-e30310266cb9)
+
+> ANSWER: Due to its population size, Los Angeles has seen greater changes in vehicles emissions. Despite the recent drop, vehicle emissions in LA are still higher than 1995 level. On the other hand, Baltimore has managed to keep the vehicle emission lower each year.
